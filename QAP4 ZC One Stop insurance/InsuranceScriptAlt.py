@@ -1,5 +1,5 @@
 #DESCRIPTION: Program for One Stop Insurance Company to enter and calculate new insurance policy information for customers.
-#             This uses pre-defined values for past claims. This is what the original QAP asked for.
+#             This program allows you to write previous claims into a .dat file. Useful for something like a database!
 #AUTHOR:      Zachary Collier
 #DATE:        July 16th 2024
 
@@ -13,7 +13,7 @@ import ProgressBars
 
 #Define constants (from default values file)
 
-f = open('Const.dat', 'r')
+f = open('ConstAlt.dat', 'r')
 POLICY_NO = int(f.readline())
 BASIC_PREMIUM = float(f.readline())
 ADD_CAR_DISCOUNT = float(f.readline())
@@ -163,15 +163,49 @@ while True:
     claimNoList = []
     claimDateList = []
     claimAmountList = []
+    claimAmountListRaw = []
 
-    f = open('PastClaims.dat', 'r')
-    for i in f:
-        pastClaims = i.split(',')
-        claimNoList.append(pastClaims[0].strip())
-        claimDateList.append(pastClaims[1].strip())
-        claimAmount = pastClaims[2].strip()
-        claimAmountList.append(DollarConvLib.dollarConv(claimAmount))
-    f.close()
+    while True:
+        while True:
+            try:
+                claimNoDsp = input("Enter the customer's previous claim's number: ")
+                claimNo = int(claimNoDsp)
+            except:
+                ErrorMessage("Please enter only numbers.")
+            else:
+                claimNoList.append(claimNoDsp)
+                break
+        
+        while True:
+            try:
+                claimDateDsp = input("Enter the claim date (YYYY-MM-DD): ")
+                claimDate = DateConvLib.strToDateConv(claimDateDsp)
+            except:
+                ErrorMessage("Invalid date entered.")
+            else:
+                claimDateList.append(claimDateDsp)
+                break
+
+        while True:
+            try:
+                claimAmount = input("Enter the claim amount: ")
+                claimAmount = float(claimAmount)
+            except:
+                ErrorMessage("Please enter only numbers.")
+            else:
+                claimAmountListRaw.append(claimAmount)
+                claimAmountList.append(DollarConvLib.dollarConv(claimAmount))
+                break
+        
+        while True:
+            claimEnterContinue = input("Add more claims? (Y for Yes, N for No): ").upper()
+            if (claimEnterContinue == "Y" or claimEnterContinue == "N") and len(claimEnterContinue) == 1:
+                break
+            else:
+                ErrorMessage("Please enter only either Y or N.")
+        
+        if claimEnterContinue == "N":
+            break
 
     #Perform Calculations
 
@@ -288,8 +322,8 @@ while True:
 
     #Write values to files
 
-    f = open('PolicyInfo.dat', 'a') #Contains all policy holder info
-    f.write('{}, '.format(POLICY_NO))
+    f = open('PolicyInfoAlt.dat', 'a') #Contains all policy holder info
+    f.write('{}, '.format(POLICY_NO)) #PK
     f.write('{}, '.format(custFirst))
     f.write('{}, '.format(custLast))
     f.write('{}, '.format(custAddress))
@@ -305,6 +339,15 @@ while True:
     f.write('{}, '.format(downPayAmountDsp))
     f.write('{}\n'.format(totalInsurancePremiumDsp))
     f.close()
+
+    f = open('PastClaimsAlt.dat', 'a') #Contains all past claims of a designated policy holder
+    for i in range(len(claimNoList)):
+        f.write('{}, '.format(claimNoList[i])) #PK
+        f.write('{}, '.format(POLICY_NO)) #FK
+        f.write('{}, '.format(claimDateList[i]))
+        f.write('{}\n'.format(claimAmountListRaw[i]))
+    f.close()
+    #More organized for a theoretical database's use
 
     POLICY_NO += 1 #Increase policy number
 
@@ -334,7 +377,7 @@ while True:
 
 #Housekeeping
 
-f = open('Const.dat', 'w')
+f = open('ConstAlt.dat', 'w')
 f.write('{}\n'.format(POLICY_NO))
 f.write('{}\n'.format(BASIC_PREMIUM))
 f.write('{}\n'.format(ADD_CAR_DISCOUNT))
