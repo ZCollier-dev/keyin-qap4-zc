@@ -34,20 +34,9 @@ const customer = {
   }
 };
 
-console.log(customer.name)
-console.log(customer.gender)
-console.log(customer.birthday)
-console.log(customer.age())
-console.log(customer.mailingAddress.street)
-console.log(customer.mailingAddress.city)
-console.log(customer.mailingAddress.province)
-console.log(customer.mailingAddress.postalCode)
-console.log(customer.phoneNo)
-console.log(customer.stayTimes.checkIn)
-console.log(customer.stayTimes.checkOut)
-console.log(customer.stayDuration())
-
 let paragraph = `The customer's name is ${customer.name}, ${customer.gender}, whose birthday is ${customer.birthday.getFullYear()}-${customer.birthday.getMonth()+1}-${customer.birthday.getDate()} and is thus of age ${customer.age()}. Their mailing address is ${customer.mailingAddress.street}, ${customer.mailingAddress.city} ${customer.mailingAddress.province} ${customer.mailingAddress.postalCode} and their phone number is ${customer.phoneNo}. They are paying via ${customer.payMethod}. Their room preferences are: ${customer.roomPrefs}. They are staying from ${customer.stayTimes.checkIn} to ${customer.stayTimes.checkOut}, as such their stay duration is ${customer.stayDuration()} day(s).`
+
+console.log(paragraph)
 
 document.getElementById("scriptcontent").innerHTML = paragraph
 
