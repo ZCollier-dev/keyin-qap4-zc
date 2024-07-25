@@ -5,4 +5,4 @@ PYTHON: The Alt version of the script was the original version of the script, no
 
 JAVASCRIPT: A very simple program intended to get a feel for JavaScript.
 
-ERD: Collaborators are Zachary Collier, Sarah Murphy, and Kyle / Scarlett Budgell.
+ERD: Collaborators are Zachary Collier, Sarah Murphy, and Kyle / Scarlett Budgell. Program used is draw.io as it is easy enough to use.
